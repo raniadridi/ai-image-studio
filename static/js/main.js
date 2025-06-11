@@ -1,4 +1,4 @@
-// Enhanced JavaScript for AI Image Studio
+// JavaScript for AI Image Studio
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize dark theme and AI effects
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Enhanced loading states for buttons with AI styling
+    // loading states for buttons with AI styling
     const buttons = document.querySelectorAll('button[type="submit"]');
     buttons.forEach(button => {
         button.addEventListener('click', function() {
@@ -50,26 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Enhanced image lazy loading with fade-in effect
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.style.opacity = '0';
-                img.src = img.dataset.src;
-                img.onload = () => {
-                    img.style.transition = 'opacity 0.5s ease';
-                    img.style.opacity = '1';
-                };
-                observer.unobserve(img);
-            }
-        });
-    });
-
-    images.forEach(img => imageObserver.observe(img));
-
-    // Enhanced ripple effect for buttons
+    // ripple effect for buttons
     const rippleButtons = document.querySelectorAll('.btn, .card');
     rippleButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -104,13 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('animate-float');
     });
 
-    // AI-themed typing effect for headings
-    const headings = document.querySelectorAll('h1, h2');
-    headings.forEach(heading => {
-        if (heading.textContent.includes('AI') || heading.textContent.includes('Studio')) {
-            addTypingEffect(heading);
-        }
-    });
 });
 
 // Initialize AI theme effects
@@ -123,9 +97,7 @@ function initializeAITheme() {
     primaryButtons.forEach(btn => {
         btn.classList.add('btn-glow');
     });
-    
-    // Add AI branding to favicon (if exists)
-    updateFavicon();
+
 }
 
 // Create subtle particle effect
@@ -186,101 +158,6 @@ function createParticleEffect() {
     });
 }
 
-// Enhanced notification system with AI styling
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `position-fixed top-0 end-0 m-3 p-3 rounded shadow-lg`;
-    notification.style.zIndex = '9999';
-    notification.style.minWidth = '300px';
-    notification.style.backdropFilter = 'blur(16px)';
-    notification.style.transform = 'translateX(100%)';
-    notification.style.transition = 'all 0.3s ease';
-    
-    // Set colors based on type
-    switch(type) {
-        case 'error':
-            notification.style.background = 'rgba(239, 68, 68, 0.9)';
-            notification.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-            notification.style.color = '#fca5a5';
-            break;
-        case 'success':
-            notification.style.background = 'rgba(16, 185, 129, 0.9)';
-            notification.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-            notification.style.color = '#86efac';
-            break;
-        case 'warning':
-            notification.style.background = 'rgba(245, 158, 11, 0.9)';
-            notification.style.border = '1px solid rgba(245, 158, 11, 0.3)';
-            notification.style.color = '#fde047';
-            break;
-        default:
-            notification.style.background = 'rgba(139, 92, 246, 0.9)';
-            notification.style.border = '1px solid rgba(139, 92, 246, 0.3)';
-            notification.style.color = '#c4b5fd';
-    }
-    
-    const icon = type === 'error' ? 'fa-exclamation-triangle' : 
-                 type === 'success' ? 'fa-check-circle' : 
-                 type === 'warning' ? 'fa-exclamation-circle' : 'fa-info-circle';
-    
-    notification.innerHTML = `
-        <div class="d-flex align-items-center">
-            <i class="fas ${icon} me-2"></i>
-            <span>${message}</span>
-            <button class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 10);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (notification.parentElement) {
-                notification.remove();
-            }
-        }, 300);
-    }, 5000);
-}
-
-// Enhanced copy to clipboard with AI feedback
-function copyToClipboard(text) {
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification('🤖 Copied to clipboard successfully!', 'success');
-        }).catch(() => {
-            fallbackCopyTextToClipboard(text);
-        });
-    } else {
-        fallbackCopyTextToClipboard(text);
-    }
-}
-
-function fallbackCopyTextToClipboard(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.top = '-9999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        document.execCommand('copy');
-        showNotification('📋 Copied to clipboard!', 'success');
-    } catch (err) {
-        showNotification('❌ Failed to copy', 'error');
-    }
-    
-    document.body.removeChild(textArea);
-}
-
 // Format file size with AI theme
 function formatFileSize(bytes) {
     if (bytes === 0) return '0 Bytes';
@@ -290,37 +167,8 @@ function formatFileSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// AI-themed typing effect
-function addTypingEffect(element) {
-    const text = element.textContent;
-    element.textContent = '';
-    element.style.borderRight = '2px solid #8b5cf6';
-    
-    let i = 0;
-    const timer = setInterval(() => {
-        element.textContent += text[i];
-        i++;
-        if (i >= text.length) {
-            clearInterval(timer);
-            setTimeout(() => {
-                element.style.borderRight = 'none';
-            }, 500);
-        }
-    }, 100);
-}
 
-// Update favicon with AI theme
-function updateFavicon() {
-    const favicon = document.querySelector('link[rel="icon"]');
-    if (!favicon) {
-        const newFavicon = document.createElement('link');
-        newFavicon.rel = 'icon';
-        newFavicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🤖</text></svg>';
-        document.head.appendChild(newFavicon);
-    }
-}
-
-// Enhanced loading indicator for image generation
+// loading indicator for image generation
 function showAILoadingIndicator(container) {
     const loader = document.createElement('div');
     loader.className = 'text-center p-4';
@@ -339,6 +187,261 @@ function showAILoadingIndicator(container) {
     container.appendChild(loader);
     return loader;
 }
+// Image Generation Loading Handler
+function initializeImageGeneration() {
+    const form = document.getElementById('imageGenerationForm');
+    if (form) {
+        form.addEventListener('submit', function() {
+            showLoadingIndicator();
+            disableGenerateButton();
+        });
+    }
+}
 
+function showLoadingIndicator() {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const generateBtn = document.getElementById('generateBtn');
+    
+    if (loadingIndicator) {
+        loadingIndicator.style.display = 'block';
+        loadingIndicator.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function disableGenerateButton() {
+    const generateBtn = document.getElementById('generateBtn');
+    if (generateBtn) {
+        generateBtn.disabled = true;
+        generateBtn.innerHTML = '<i class="fas fa-robot fa-spin me-2"></i>AI Processing...';
+        generateBtn.classList.add('btn-glow');
+    }
+}
+
+// Fullscreen Image Viewer
+function viewFullscreen(imageUrl, prompt, username) {
+    const overlay = document.createElement('div');
+    overlay.className = 'fullscreen-overlay';
+    
+    overlay.innerHTML = `
+        <div class="text-white text-center mb-3">
+            <h5 class="gradient-text">${username}</h5>
+            <p class="text-muted fst-italic">"${prompt}"</p>
+        </div>
+        <div class="fullscreen-image-container">
+            <img src="${imageUrl}" alt="Generated Image" class="fullscreen-image">
+            <button class="fullscreen-close-btn" onclick="closeFullscreen()">&times;</button>
+        </div>
+        <div class="mt-3">
+            <button onclick="shareImage('${imageUrl}', '${prompt}')" class="btn btn-outline-light me-2 btn-glow">
+                <i class="fas fa-share"></i> Share
+            </button>
+            <a href="${imageUrl}" download class="btn btn-outline-success btn-glow">
+                <i class="fas fa-download"></i> Download
+            </a>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+    
+    // Close on overlay click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeFullscreen();
+        }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeFullscreen();
+        }
+    });
+}
+
+function closeFullscreen() {
+    const overlay = document.querySelector('.fullscreen-overlay');
+    if (overlay) {
+        overlay.remove();
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function shareImage(imageUrl, prompt) {
+    const shareModal = document.createElement('div');
+    shareModal.className = 'share-modal';
+    
+    const currentUrl = window.location.origin;
+    
+    shareModal.innerHTML = `
+        <div class="text-center">
+            <h5 class="mb-3 gradient-text"><i class="fas fa-share"></i> Share Options</h5>
+            <div class="d-grid gap-2">
+                <button onclick="copyImageLink('${imageUrl}')" class="btn btn-outline-primary btn-glow">
+                    <i class="fas fa-copy"></i> Copy Image Link
+                </button>
+                <button onclick="openTwitter()" class="btn btn-outline-primary btn-glow">
+                    <i class="fab fa-twitter"></i> Share to Twitter
+                </button>
+                <button onclick="openFacebook()" class="btn btn-outline-primary btn-glow">
+                    <i class="fab fa-facebook"></i> Share to Facebook
+                </button>
+                <button onclick="openWhatsApp()" class="btn btn-outline-success btn-glow">
+                    <i class="fab fa-whatsapp"></i> Share to WhatsApp
+                </button>
+            </div>
+            <button onclick="closeShareModal()" class="btn btn-sm btn-outline-secondary mt-3">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(shareModal);
+    
+    // Store data globally for the buttons
+    window.shareData = {
+        prompt: prompt,
+        imageUrl: imageUrl,
+        siteUrl: currentUrl
+    };
+    
+    // Auto remove after 15 seconds
+    setTimeout(() => {
+        closeShareModal();
+    }, 15000);
+}
+
+function closeShareModal() {
+    const shareModal = document.querySelector('.share-modal');
+    if (shareModal) {
+        shareModal.remove();
+    }
+}
+
+// Copy to Clipboard
+function copyToClipboard(text, message = 'Copied to clipboard!') {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showNotification(`📋 ${message}`, 'success');
+            closeShareModal();
+        }).catch(() => {
+            fallbackCopyTextToClipboard(text, message);
+        });
+    } else {
+        fallbackCopyTextToClipboard(text, message);
+    }
+}
+
+function fallbackCopyTextToClipboard(text, message = 'Copied to clipboard!') {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.cssText = 'position: fixed; top: -9999px; left: -9999px;';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showNotification(`📋 ${message}`, 'success');
+        closeShareModal();
+    } catch (err) {
+        showNotification('❌ Failed to copy', 'error');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+
+function showNotification(message, type = 'info', duration = 5000) {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notif => notif.remove());
+    
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    
+    const icon = type === 'error' ? 'fa-exclamation-triangle' : 
+                 type === 'success' ? 'fa-check-circle' : 
+                 'fa-info-circle';
+    
+    notification.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas ${icon} me-2"></i>
+            <span class="flex-grow-1">${message}</span>
+            <button class="btn-close btn-close-white ms-2" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Auto remove
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 300);
+    }, duration);
+}
+
+// Download Image Function
+function downloadImage() {
+    const img = document.querySelector('img[src^="data:image/png;base64"]');
+    if (img) {
+        const link = document.createElement('a');
+        link.href = img.src;
+        link.download = 'ai_generated_image.png';
+        link.click();
+        showNotification('🎨 Image downloaded successfully!', 'success');
+    } else {
+        showNotification('❌ No image found to download', 'error');
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initializeImageGeneration();
+    
+    // Add click handlers for existing eye buttons
+    const eyeButtons = document.querySelectorAll('[onclick*="viewFullscreen"]');
+    eyeButtons.forEach(btn => {
+        btn.classList.add('btn-gallery');
+    });
+});
+function copyImageLink(imageUrl) {
+    copyToClipboard(imageUrl, 'Image link copied!');
+}
+
+function openTwitter() {
+    console.log("Twitter clicked");
+    const data = window.shareData;
+    const text = `Check out this AI-generated image: "${data.prompt}" Created with AI Image Studio!`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(data.siteUrl)}`;
+    window.open(url, '_blank');
+    closeShareModal();
+}
+
+function openFacebook() {
+    console.log("Facebook clicked");
+    const data = window.shareData;
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(data.siteUrl)}`;
+    window.open(url, '_blank');
+    closeShareModal();
+}
+
+function openWhatsApp() {
+    console.log("WhatsApp clicked");
+    const data = window.shareData;
+    const text = `Check out this AI-generated image: "${data.prompt}" - ${data.siteUrl}`;
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+    closeShareModal();
+}
 // Initialize theme on load
 document.addEventListener('DOMContentLoaded', initializeAITheme);

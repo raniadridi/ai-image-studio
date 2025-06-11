@@ -66,10 +66,11 @@
                         <p class="card-text small">{{ image.prompt[:60] }}{% if image.prompt|length > 60 %}...{% endif %}</p>
                         <small class="text-muted">{{ image.created_at.strftime('%B %d, %Y') }}</small>
                         <div class="mt-2 d-flex gap-1">
-                            <a href="{{ image.get_url() }}" target="_blank" class="btn btn-sm btn-outline-primary btn-glow">
+                            <button onclick="viewFullscreen('{{ image.get_url() }}', '{{ image.prompt }}', '{{ current_user.username }}')" 
+                                    class="btn btn-sm btn-outline-primary btn-glow">
                                 <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ image.get_url() }}" download="{{ image.filename }}" class="btn btn-sm btn-outline-success">
+                            </button>
+                            <a href="{{ image.get_url() }}" download class="btn btn-sm btn-outline-success">
                                 <i class="fas fa-download"></i>
                             </a>
                             <button onclick="shareImage('{{ image.get_url() }}', '{{ image.prompt }}')" class="btn btn-sm btn-outline-info">
@@ -78,6 +79,7 @@
                             <button onclick="deleteImage({{ image.id }})" class="btn btn-sm btn-outline-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
+                        </div>
                         </div>
                     </div>
                 </div>
